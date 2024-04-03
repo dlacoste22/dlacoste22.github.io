@@ -1,0 +1,411 @@
+
+
+================================= COMMANDES ==================================
+
+!!! AVANT TOUTE CHOSE, LE MANUEL EST MON AMI !!!
+
+
+ctrl+alt+F1   ou F2, etc...			Permet de changer de bureau, ou d'aller sur un terminal (plus de KDE ou gnome)
+						Utile quand ca bug fort pour tuer un programme
+
+kompare						Permet de comparer deux fichiers
+
+time ./monprog					Permet d'executer le programme ./monprog en connaissant le temps d'execution
+
+man <commande>					Donne toutes les options d'une commande. Pour sortir du manuel, il faut taper ":q"
+
+../*.txt					Désigne par exemple tous les fichiers .txt du dossier parent
+././*.txt					Désigne tous les fichiers .txt des répertoires fils du second degrès
+
+./commande					Pour executer un fichier executable il faut ajouter ./ devant le nom de la commande (ici commande) mais il faut être
+						dans le bon répertoire pour la commande
+
+./ifconfig					Permet d'avoir les informations sur les connections de la machine(adresse mac etc.) nécessite d'être dans le répertoire
+						sbin qui se trouve à la racine.
+
+lpr nom_du_document.pdf				Imprime le document (toutes les pages)
+
+lp <file.pdf> -d blake -o two-sided-short-edge  Imprime le document en recto-verso
+
+lp <file.pdf> -d blake -o two-sided-short-edge -o fitplot -o number-up=2	Imprime en 2 pages par face en recto verso
+
+lp -d marlow -o sides=two-sided-long-edge -o fitplot -o number-up=2 -o number-up-layout=tblr blabla.pdf
+
+						Pour imprimer une présentation (2 pages par face de haut en bas en portrait le plus grand possible.)
+
+eps2eps fichiersource.eps fichersortie.eps	A faire pour si pb d'impression de fichier eps. Cela donnera un eps qu'on peut imprimer vraiment. (parfois impression depages blanches)
+
+ls						liste des fichiers et répertoires
+
+rm <fichier>					supprime un fichier
+
+rmdir <repertoire>				supprime un répertoire
+
+mkdir						crée un répertoire
+
+vim nom						crée un fichier texte s'appellant nom
+
+cp source destination				copie source dans destination
+
+scp source gatien@turner:~/Documents		commande pour copier vers une autre machine du réseau (exemple ici turner) depuis une machine où on est loguer en ssh
+						source correspond au chemin vers le fichier source et ~/Documents indique que l'on copie dans le home de turner dans le rep Document.
+						[option] -r permet de copier un répertoire (il y a une option pour ajouter récursivité et copier les sous répertoires etc.)
+
+cd ..						descend au répertoire parent
+
+cd ../..					descende au répertoir parent du répertoire parent
+
+ctrl + c					arrête la dernière commande lancée et en cours
+
+ps						liste les processus en cours sur une machine (permetde voir qui utilise quel programme si il y a des problèmes de licence)
+ps -e						idem mais plus détaillé
+
+top						permet de voir les processus utilisés dans l'ordre décroissant de cpu utilisé
+
+nice nomduprog					permet de modifié la priorité d'un programme (à faire quand on travaille sur la machine de quelqu'un et qu'on veut lui laisser la priorité)
+						le paramètre nice est donné qd on lance la commande "top" sous la colonne NI. Il va de 0 (très prioritaire) à 20 (le moins prioritaire)			
+
+renice						permet de redéfinir la nice à une valeur inférieur à celle avec laquelle on a lancé l'application
+
+alt+1						(une fois "top" effectué) permet de voir la liste des cpu utilisés pour faire un calcul (il faut toujours un cpu de libre pour que le calcul
+						fonctionne bien sinon les cpu s'attendent mutuellement pendant des temps très long => grosse pertes de puissance de calcul)
+
+cat /proc/cpuinfo 				Donne les infos surles processeurs d'une machine. (Combien de processeurs dispo...)
+
+
+ctrl+alt+F1					passer en mode console sans serveur x (il y a plusieurs consoles de ce genre correspondant à F2, F3, F4)
+						il faut se loguer ensuite pour pouvoir faire qq chose
+
+ctrl+alt+F7					revenir au serveur x
+
+killall firefox					arrête tous les processus liés à firefox (une fois loguer on peut remédier au plantage d'un logiciel)
+
+ctrl+alt+backspace				tue le serveur x
+
+ssh machine					se connecte en ssh sur la machine voulu (turner, holbein, hunt, )
+
+ssh -X						Permet de se connecter et de lancer un programme nécessitant une  fenêtre ensuite (Maple, matlab, mathematica...)
+						sur la machine
+
+ssh turner.pct.espci.fr				se connecter à turner depuis une machine en wifi connecté à internet.
+
+ls net turner					pour monter la machine "turner" quand on essait d'accéder à ses dossiers sur une autre machine à partir d'un terminal et qu'elle n'apparait pas tout
+						de suite dans le répertoire "net" (vrai pour n'importe quelle machine!)
+	
+pdftk in1.pdf in2.pdf cat output out1.pdf	crée un fichier ou1.pdf avec les deux fichiers in1.pdf et in2.pdf
+
+exit						interrompre une connection ssh
+
+ctrl+alt+L					Permet de vérouiller l'écran
+
+|						Pipe: une commande à des sorties. Ce symbole "|" appelé pipe permet de mettre la sortie d'une commande en
+						entrée d'une autre
+
+ps -e | grep map 				Permet de regrouper par bloc semblable les processus lorsqu'on liste les processus en fonctionnement
+						(map doit ici être un "pattern" particulier.)
+
+ps -e | tail					Donne les 10 dernières lignes en sortie de ps -e
+
+ps -e | more					Permet un affichage page par page (appuyer sur espace pour passer à la page suivante)
+
+ps -e | head					Donne les 10 premières lignes en sortie de ps -e
+
+ps aux --forrest | grep matlab                  Donne des infos sur arborescence (forest)
+                                                en rapport avec matlab
+
+cat <fichier>					Envoi en sortie le contenu du fichier
+
+cat fichier | grep <pattern> | tee <fichier> | more	Envois le contenue du fichier, puis applique un tri, puis enregistre le fichier, puis consultation du fichier
+							page par page.
+
+paste fichier1 fichier2				concatène les lignes des deux fichiers 	C1	C2	C3	C4
+						fichier1 contenait C1 et C2 et fichier2 contenait C3 et C4 par exemple
+
+dmesg						Affiche les informations sur le noyau (contenu du buffer)
+
+sync						Permet de synchroniser les fichiers (Ils sont sauvegardés là où ils se trouvent, cela permet par exemple d'arracher
+						une celf usb sans risque de perte de donnée.)
+
+cd /media/usb					aller dans une clef usb
+
+eject /media/usb				ejecter la clef usb
+
+mount						Permet de voir quels sont les périphériques monté sur le système. (dans les dernières choses affichées il y a
+						les lignes concernants sdc# ou sda# où # est un nombre.)
+
+pumount						permet de démonter, on peut aussi utiliser
+eject
+
+java -jar nom_de_fichier.jar			lancer un fichier .jar
+
+java -jar /home/gatien/Doctorat/Programme\ Java/JabRef-2.6.jar &
+						Pour creer un lanceur sur le bureau d'une application java ici par exemple Jabref-2.6.jar
+
+ ==================== Screen ================
+
+Pour faire qu'une application tourne meme si on ferme la console associée (suite à un redémarage par ex)
+
+Lancer la commande
+
+screen
+
+Lancer la liste des commandes qu'on veut faire
+
+détacher en faisant ctrl+A+D
+
+On peut alors fermer la fenetre, ca ne fermera pas les job en cours.
+Pour revenir faire
+
+screen-list    pour avoir l'ensemble des screens en cours
+screen -R <nom>     pour retrouver la fenetre nom
+
+pour fermer, faire
+
+exit
+
+
+ ==================== Dans vim ================
+PARFOIS DANS UN FICHIER .TEX IL Y A DES PB D'ENCODAGE:
+
+Pour connaître le codage utilisé dans un fichier pour encoder le fichier
+:set fileencoding
+Pour connaître le codage avec lequel est lu le fichier
+:set encoding
+
+Rem: les deux points servent à pouvoir entrer une commade comme cela est habituel avec vim.
+
+
+
+
+
+======================= Créer un lanceur d'application ========================
+
+Cliquer droit dans le menu KDE sur favoris. Choisir  éditeur de menu.
+Créer un nouvel élément. Lui donner un nom et une commande correspondant à la commandes
+à entrer dans le terminal pour lancer le programme (par exemple xfig pour lancer xfig ou ./xmaple pour lancer maple)
+Quand le programme doit être lancé depuis un répertoire particulier comme maple, il suffit d'indiquer ce répertoire au lanceur
+dans l'onglet avancé la boîte de dialogue Dossier de travail permet de lancer depuis un répertoire choisi.
+
+
+====================================  VNC =====================================
+
+Permet d'ouvrir une fenêtre contenant un bureau d'un autre ordinateur du réseau depuis n'importe quelle autre machine.
+Il faut d'abod se connecter sur la machine dont on veut un bureau pour y créer un serveur vnc. Pour cela, on se connecte
+à la machine via "ssh" puis on lance la commance "vncserver". Celle ci renvoit un message du type  :
+----------------------------------------------------------------
+gatien@holbein:~$ vncserver
+
+You will require a password to access your desktops.
+
+Password:
+Verify:
+Would you like to enter a view-only password (y/n)? n
+Couldn't start Xtightvnc; trying default font path.
+Please set correct fontPath in the vncserver script.
+
+New 'X' desktop is holbein:1
+
+Creating default startup script /home/gatien/.vnc/xstartup
+Starting applications specified in /home/gatien/.vnc/xstartup
+Log file is /home/gatien/.vnc/holbein:1.log
+----------------------------------------------------------------
+Le serveur est créé sur holbein et correspond au display 1 (Il y a plusieurs écrans et on ne peut pas être plusieurs sur le même...)
+On se délogue de ssh par "exit" puis on lance le viewer de vnc par "vncviewer holbein:1" dans notre cas pour une connection sur le display 1 de holbein.
+
+Sinon on peut utiliser le programme à l'emplacement suivant:
+/usr/NX/bin/nxclient
+pour se connecter sur une autre machine (la qualité de a résolution est très bonne)
+
+
+
+
+============================= PROGRAMMES UTILES ===============================
+
+
+xmaple 					sur hunt, permet de lancer maple 11
+
+matlab					sur hunt ou moore, permet de lancer matlab
+
+xmgr					permet de lancer une interface graphique pour le tracer de courbe à partir de fichier de donnée (utilisé par Falco)
+
+nautilus				lancer lorsque l'on navigue en ssh sur une autre machine permet d'avoir un navigateur de fichier pour visualiser ses données !	
+
+okular 					visionneur de pdf permettant une copie d'une partie d'un pdf
+
+evince					visionneur de pdf de qualité
+
+
+================================ A SAVOIR ======================================
+
+* RETROUVER SES DONNEE SUR LE RESEAU
+
+De chaque machine, on a accès à toutes les autres machines : Aller dans le répertoire
+racine puis dans le répertoire net. Là se trouve la liste de toutes les machines. On peut ensuite
+aller dans son home propre à chaque machine.
+
+
+Un autre moyen qui fonctionne également depuis chez soi (lorsqu'on est connecté sur une machine du labo par ssh probablement)
+consiste à utiliser un navigateur (konqueror, mozilla, etc.) et dans la barre d'adresse taper
+fish://nomdelamachine.pct.espci.fr
+Attention: Cela fonctionne uniquement depuis un environnement linux KDE
+Remarque: Il existe un équivalent gnome (sshfs)
+
+
+On peut aussi ouvrir une session depuis son ordinateur personnel au labo mais pour ouvrir un bureau de n'importe quelle autre machine du labo.
+Pour cela, utiliser le petit bouton à droite du choix du type de bureau et choisir connection à distance. Entrer le nom de la machine suivi des traditionnels
+.pct.espci.fr puis valider. S'affiche alors une page de connection permettant l'ouverture de session directement sur le réseau ! Après s'être loguer,
+vous aurait devant vous le bureau qui est configuré pour vous sur cette machine comme si vous étiez devant !
+
+
+
+Répertoire ou se trouve les trucs dans public sur holbein ???
+http://www.pct.espci.fr/~gatien/Correction_TD_LM200/
+
+
+
+* MATHEMATICA, MAPLE, MATLAB
+
+Il y a des licences flottantes pour Maple. On peut le lancer de toutes les machines
+dans la mesure où toutes les licences ne sont pas utilisée.
+
+Tandis que pour mathematica, il n'y a que des licences locales. Il faut se connecter
+en ssh -X pour pouvoir utiliser ces logiciels sur ces machines.
+
+
+============================ POUR LA MESSAGERIE ================================
+
+Turner est le serveur de messagerie du laboratoire. C'est également la machine qui
+permet de se loguer sur toutes les machines unix du laboratoire.
+  *adresse du serveur: turner.pct.espci.fr
+  *Utiliser IMAP pour retirer les e-mails.
+  *Active SSL pour la negotiation avec turner, mais pas l'authentification securisée.
+(le wizard ne fait pas tout, vérifier les paramètres du compte)
+
+
+
+=========================== Liste des machines de PCT ==========================
+
+turner
+holbein (mathematica 5 en local)
+fuller
+hunt (mathematica 7 en local)
+moore (licence dessus pour matlab)
+reynolds
+hogarth
+whistler
+auerbach   ?
+
+
+
+
+
+
+Commandes UNIX
+
+
+
+·        Commandes de transfert vers le lecteur de disquette a:
+
+·        Détruire répertoires et fichiers inclus dedans: rm -r
+rm -f détruit sans demander confirmation (l'opposé de -i)
+
+·        Pour visualiser des fichiers dvi: xdvi
+pour fichiers ps: dvips - fichier.ps fichier.dvi puis ghostview
+
+·        Impression de fichiers ( par exemple dans xmgr ): lpr -P lw1
+( ou lp -dlw1 NB pas d'espace )  ça marche pour les fichiers postcript uniquement
+Pour imprimer un fichier texte utiliser plutot: enscript -P lw1 file.txt
+Pour plus de détail sur l'impression de fichier voir
+http://www.cups.org/documentation.php/options.html
+
+·        Directives de compilation en fortran 90
+xlf90 -c fichier1.f cree un fichier compile de même nom et d'extension .o
+xlf90 main.f file1.o compile le main et y ajoute file1
+Bibliothèques de programmes: xlf90 -l essl integ.f ou pour les biblios persos: xlf90 -L chemin d'accès
+
+·        Pour compresser: gzip + nom de fichier
+tar cvf fichiertar fichier1 fichier2 ... Pour décompresser : gunzip ou tar -xvf fichiertar
+
+·        Réseau : Pour avoir no IP: nslookup +nom_machine (obtenu par who)
+Transfert interne (secure copie) de directories:
+scp -r lacoste@olddept.physics.upenn.edu:/home/lacoste/file final_dir
+Are you sure you want to continue connecting... répondre yes
+Ouvrir une session X sur une autre machine : ssh hogarth.pct.espci.fr -X
+
+·        Changement de l’extension d’un groupe de fichiers : utiliser la ligne suivante
+for i in *.JPG; do mv "$i" "`echo $i|sed 's/\(.*\.\)JPG/\1jpg/'`" ; done
+
+Commandes LINUX
+
+·        Pour démarrer environnement X: startx
+pour créer nouveau utilisateur: control-panel
+pour imprimer: lpr file.ps
+pour lancer CD: xplaycd
+
+·        Pour accéder au lecteur CD, il faut être root et ensuite
+mount -t iso9660 /dev/cdrom /mnt/cdrom
+puis aller dans /mnt/cdrom pour lire et copier les fichiers.
+Pour sortir le CD, sortir d'abord du répertoire et ensuite
+umount -t iso9660 /dev/cdrom /mnt/cdrom
+Pour disquette idem avec mount /dev/fd0 /mnt/floppy; cd /mnt/floppy
+Pour voir ce qui est monte,df
+Pour voir directories windows, après avoir crée un répertoire
+windows: mount -t vfat /dev/hda1 /windows
+Pour chercher le nom d'un fichier, pour un programme which + name
+find /bin -name "rsh +" –print
+
+
+
+
+====================== La hiérarchie des fichiers sous Unix ===========================
+
+Pour assurer la compatibilité et la portabilité, les systèmes UNIX respectent la norme FHS (File Hierarchy Standard).
+La hiérarchie de base d'un système Unix est la suivante :
+
+/				la racine, elle contient les répertoires principaux
+	/bin			Contient les exécutables essentiels au système, employés par tous les utilisateurs.
+	/boot			Contient les fichiers de chargement du noyau, dont le chargeur d'amorce.
+	/dev			Contient les points d'entrée des périphériques.
+	/etc			Contient les fichiers de configuration nécessaires à l'administation du système (fichiers passwd, group, inittab, ld.so.conf, lilo.conf, ...).
+		/etc/X11		contient les fichiers spécifiques à la configuration de X (contient XF86Config par exemple)
+	/home			Contient les répertoires personnels des utilisateurs. Dans la mesure où les répertoires situés sous /home sont destinés à accueillir les fichiers des utilisateurs du système, il est conseillé de dédier une partition spécifique au répertoire /boot afin de limiter les dégats en cas de saturation de l'espace disque.
+	/lib			Contient les bibliothèques standards partagées entre les différentes application du système.
+	/mnt			Permet d'accueillir les points de montage des partitions temporaires (cd-rom, disquette, ...).
+	/proc			Regroupe un ensemble de fichiers virtuels permettant d'obtenir des informations sur le système ou les processus en cours d'exécution.
+	/root			Répertoire personnel de l'administrateur root. Le répertoire personnel de l'administrateur est situé à part des autres répertoires personnels car il se trouve sur la partition racine, afin de pouvoir être chargé au démarrage, avant le montage de la partition /home.
+	/sbin			Contient les exécutables système essentiels (par exemple la commande adduser).
+	/tmp			contient les fichiers temporaires
+	/usr			Hiérarchie secondaire
+		/usr/X11R6		ce répertoire est réservé au système X version 11 release 6
+		/usr/X386		utilisé avant par X version 5, c'est un lien symbolique vers /usr/X11R6
+		/usr/bin		contient la majorité des fichiers binaires et commandes utilisateurs
+		/usr/include		contient les fichiers d'en-tête pour les programmes C et C++
+		/usr/lib		contient la plupart des bibliothèques partagées du système
+		/usr/local		contient les données relatives aux programmes installés sur la machine locale par le root
+			/usr/local/bin	Binaires des programmes locaux
+			/usr/local/include	Fichiers d'en-tête C et C++ locaux
+			/usr/local/lib	Bibliothèques partagées locales
+			/usr/local/sbin	binaires système locaux
+			/usr/local/share	hiérarchie indépendante
+			/usr/local/src	Fichiers sources locaux
+		/usr/sbin		contient les fichiers bianires non essentiels au système réservés à l'administrateur système
+		/usr/share		réservé aux données non dépendantes de l'architecture
+		/usr/src		contient des fichiers de code source
+	/var			contient des données versatiles telles que les fichiers de bases de données, les fichiers journaux (logs), les fichiers du spouleur d'impression ou bien les mails en attente.
+
+---------------------------------------------
+Autres astuces (david)
+
+Pour savoir si un package existe: aptitude search nom_package, aptitude show nom_package pour avoir des détails
+Voir site packages.debian.org pour en avoir une liste de packages disponibles
+dpkg -L jabref ?
+df pour savoir occupation en mémoire des differents disques durs
+Ctrl-Shift-N pour ouvrir un nouveau terminal
+
+Pour se connecter de l'exterieur sur holbein uniquement:
+ssh -C -X -l david holbein.pct.espci.fr 
+(C pour compression, X pour transfer d'envir. graph, l pour utilisateur)
+
+Une fois connect\E9 sur holbein on peut lancer nx avec
+/usr/NX/bin/nxclient --wizard & et utiliser cela pour se
+connecter sur une autre machine rapidement

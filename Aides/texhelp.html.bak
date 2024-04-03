@@ -1,0 +1,51 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.73 [en] (X11; U; Linux 2.0.32 i686) [Netscape]">
+</head>
+<body>
+<b>ACCENTS et CARACTERES SPECIAUX</b>
+<br>c fa\c con, Caractere barre: \not, m\^eme, Produit matriciel \cdot
+<br>^i appara\^\i tre
+<br> \no pour un numéro
+<p><b>PRESENTATION GENERALE:</b>
+<br>Aller a la ligne sans indentation: sauter une ligne, sauter une ligne: \\ ou \medskip ou \vspace*{0.25in}
+<br>Points: \begin{itemize} \item texte \end{itemize}, points numérotés le même avec enumerate
+<p>STYLES:
+<br>Italique: {\it texte} ou \textit{} plutot \emph{} (met le texte en emphase,
+<br> i.e. switch mode italique/normal)
+<br> Lettres rondes mode texte \cal, mode math \mathcal
+<p>CITATION:
+<br>\cite{} et \bibitem{}
+<p><b>EQUATIONS:</b> BEQ et EEQ pour les eq numerotees sinon $$ et $.
+<br>Produit: {A \over B} pour un caractère sinon {}
+<br>Gradient: \nabla, vecteur \vec, produit vectoriel \wedge, integrale \int_a^b
+<br>Pour changer la taille des équations dans le texte:
+[[$x^2+y^2=z^2$]]
+[[$\mbox{\fontsize{12}{14}\selectfont $x^2+y^2=z^2$}$]]
+[[$\mbox{\fontsize{14}{17}\selectfont $x^2+y^2=z^2$}$]]
+[[$\mbox{\fontsize{17}{20}\selectfont $x^2+y^2=z^2$}$]]
+[[$\mbox{\fontsize{20}{24}\selectfont $x^2+y^2=z^2$}$]]
+[[$\mbox{\fontsize{24}{30}\selectfont $x^2+y^2=z^2$}$]]
+
+<p><b>FIGURES:</b>: BFI et EFI
+<br>\documentclass{article}
+<br>\usepackage{psfig}
+<br>\begin{document}
+<br>\begin{figure}
+<br>\label{fig1} \psfig{file=diag.ps,height=10cm,width=10cm,angle=-90}
+\caption{}
+<br>\label{fig2} \psfig{file=diag1.ps,height=10cm,width=10cm,angle=-90}
+\caption{}
+<br>\end{figure};et \ref{fig1} pour s'y referer
+
+<br>Pour mettre 2 figures cote à cote:
+<br>{\par\centering
+\resizebox*{2.5in}{2.5in}{\rotatebox{0}{\includegraphics{Fig5.eps}}}
+\resizebox*{2.5in}{2.5in}{\rotatebox{0}{\includegraphics{Pt2.eps}}}
+\par}
+<p>CORRECTEUR ORTHOGRAPHE: anglais ispell, francais epelle
+<p>MIKTEX pour reconfigurer executer C:\texmf\miktex\config\config.bat
+</body>
+</html>
