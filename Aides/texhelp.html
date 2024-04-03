@@ -5,9 +5,9 @@
    <meta name="GENERATOR" content="Mozilla/4.73 [en] (X11; U; Linux 2.0.32 i686) [Netscape]">
 </head>
 <body>
-
+ 
 <b>UTILISATION GENERALE</b><br>
-dvi2ps cree un ps à partir du dvi; dvipdfm cree un pdf directement à partir du dvi
+dvi2ps cree un ps Ã  partir du dvi; dvipdfm cree un pdf directement Ã  partir du dvi
 <p>
 <b>BIBTEX</b><br>
 export BIBINPUTS=/home/david/Dropbox pour fixer le repertoire bib files <br>
@@ -20,22 +20,22 @@ entrer --include-directory="C:\Users\david\Dropbox\Mes publis\Bib"
 <p>
 <b>ACCENTS et CARACTERES SPECIAUX</b>
 <br>c fa\c con, Caractere barre: \not, m\^eme, Produit matriciel \cdot
-<br>^i appara\^\i tre; \no pour un numéro
+<br>^i appara\^\i tre; \no pour un numÃ©ro
 <p><b>DANS FICHIER LATEX:</b>
 <br>Aller a la ligne sans indentation: sauter une ligne, sauter une ligne: \\ ou \medskip ou \vspace*{0.25in}
-<br>Points: \begin{itemize} \item texte \end{itemize}, points numérotés le même avec enumerate
+<br>Points: \begin{itemize} \item texte \end{itemize}, points numÃ©rotÃ©s le mÃªme avec enumerate
 <p>STYLES:
 <br>Italique: {\it texte} ou \textit{} plutot \emph{} (met le texte en emphase,
 <br> i.e. switch mode italique/normal)
 <br> Lettres rondes mode texte \cal, mode math \mathcal
 <p><b>EQUATIONS:</b> BEQ et EEQ pour les eq numerotees sinon $$ et $.
-<br>Produit: {A \over B} pour un caractère sinon {}
+<br>Produit: {A \over B} pour un caractÃ¨re sinon {}
 <br>Gradient: \nabla, vecteur \vec, produit vectoriel \wedge, integrale \int_a^b
-<br>Pour changer la taille des équations dans le texte:
+<br>Pour changer la taille des Ã©quations dans le texte:
 <br>[[$x^2+y^2=z^2$]]  (taille standard)
 <br>[[$\mbox{\fontsize{12}{14}\selectfont $x^2+y^2=z^2$}$]] (plus grand)
 encore plus grand (14,17), (20,24), (24,30)
-<br> Pour une barre associée à une dérivée: \left. plus loin \right|_{..}
+<br> Pour une barre associÃ©e Ã  une dÃ©rivÃ©e: \left. plus loin \right|_{..}
 <p><b>FIGURES:</b>: BFI et EFI
 <br>\documentclass{article}
 <br>\usepackage{psfig}
@@ -47,7 +47,7 @@ encore plus grand (14,17), (20,24), (24,30)
 \caption{}
 <br>\end{figure};et \ref{fig1} pour s'y referer
 
-<br>Pour mettre 2 figures cote à cote:
+<br>Pour mettre 2 figures cote Ã  cote:
 <br>{\par\centering
 \resizebox*{2.5in}{2.5in}{\rotatebox{0}{\includegraphics{Fig5.eps}}}
 <br>\resizebox*{2.5in}{2.5in}{\rotatebox{0}{\includegraphics{Pt2.eps}}}
@@ -58,7 +58,7 @@ encore plus grand (14,17), (20,24), (24,30)
 <br>Pour enlever les marges cotes left bottom right top
 <br>\includegraphics[trim = 10mm 80mm 20mm 5mm, clip, width=3cm]{chick}
 
-<br>Pour placer les figures dans un répertoire accessible utiliser
+<br>Pour placer les figures dans un rÃ©pertoire accessible utiliser
 <br>\graphicspath{{figure/}}
 <br>Pour convertir des figures pdf->eps utiliser pdftops -eps file.pdf
 
