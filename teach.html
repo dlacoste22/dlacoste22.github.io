@@ -87,12 +87,14 @@ nav.main a:hover, nav.main a[aria-current] { color: var(--fg); }
 /* ---------- Hero ---------- */
 .hero { padding-block: 72px 64px; }
 .hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; align-items: center; }
+.eyebrow a { color: inherit; text-decoration-color: var(--faint); text-decoration-thickness: 1px; }
+.eyebrow a:hover { color: var(--fg); text-decoration-color: var(--fg); }
 .eyebrow {
   font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent);
   margin: 0 0 18px;
 }
 h1 {
-  font-family: var(--display); font-weight: 500; font-size: clamp(44px, 7vw, 76px);
+  font-family: var(--display); font-weight: 500; font-size: clamp(38px, 5.6vw, 60px);
   line-height: 1.0; letter-spacing: -0.015em; margin: 0 0 22px; text-wrap: balance;
 }
 .lede { font-family: var(--display); font-size: clamp(20px, 2.4vw, 24px); line-height: 1.4; color: var(--fg); margin: 0 0 18px; max-width: 34ch; text-wrap: balance; }
@@ -301,7 +303,7 @@ footer.site { border-top: 1px solid var(--line); padding-block: 48px 40px; backg
         <li><span class="when">2026 – 2027</span><div>
           <h3>Tutorials in mathematics<span class="badge">Current</span></h3><p class="where">Second-year students, ESPCI Paris</p>
         </div></li>
-        <li><span class="when">Since 2021</span><div>
+        <li><span class="when">Since 2016</span><div>
           <h3>Biophysics<span class="badge">Current</span></h3><p class="where">Third-year students, ESPCI Paris</p><p class="note">Course materials are on the course Moodle page, with access restricted to ESPCI students.</p><p class="lk"><a href="https://moodle.espci.psl.eu/mod/folder/view.php?id=3324">Moodle page</a></p>
         </div></li>
       </ul>
@@ -314,6 +316,9 @@ footer.site { border-top: 1px solid var(--line); padding-block: 48px 40px; backg
         <h2>Past teaching</h2>
       </div>
       <ul class="tl">
+        <li><span class="when">2025</span><div>
+          <h3>Tutorials in statistics</h3><p class="where">First-year students, ESPCI Paris</p>
+        </div></li>
         <li><span class="when">2023 – 2024</span><div>
           <h3>Energy conversion</h3><p class="where">Lectures and tutorials, Université Paris-Saclay</p>
         </div></li>

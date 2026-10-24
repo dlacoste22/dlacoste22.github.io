@@ -87,12 +87,14 @@ nav.main a:hover, nav.main a[aria-current] { color: var(--fg); }
 /* ---------- Hero ---------- */
 .hero { padding-block: 72px 64px; }
 .hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; align-items: center; }
+.eyebrow a { color: inherit; text-decoration-color: var(--faint); text-decoration-thickness: 1px; }
+.eyebrow a:hover { color: var(--fg); text-decoration-color: var(--fg); }
 .eyebrow {
   font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent);
   margin: 0 0 18px;
 }
 h1 {
-  font-family: var(--display); font-weight: 500; font-size: clamp(44px, 7vw, 76px);
+  font-family: var(--display); font-weight: 500; font-size: clamp(38px, 5.6vw, 60px);
   line-height: 1.0; letter-spacing: -0.015em; margin: 0 0 22px; text-wrap: balance;
 }
 .lede { font-family: var(--display); font-size: clamp(20px, 2.4vw, 24px); line-height: 1.4; color: var(--fg); margin: 0 0 18px; max-width: 34ch; text-wrap: balance; }
