@@ -78,12 +78,14 @@ nav.main a:hover, nav.main a[aria-current] { color: var(--fg); }
 /* ---------- Hero ---------- */
 .hero { padding-block: 72px 64px; }
 .hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; align-items: center; }
+.eyebrow a { color: inherit; text-decoration-color: var(--faint); text-decoration-thickness: 1px; }
+.eyebrow a:hover { color: var(--fg); text-decoration-color: var(--fg); }
 .eyebrow {
   font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent);
   margin: 0 0 18px;
 }
 h1 {
-  font-family: var(--display); font-weight: 500; font-size: clamp(44px, 7vw, 76px);
+  font-family: var(--display); font-weight: 500; font-size: clamp(38px, 5.6vw, 60px);
   line-height: 1.0; letter-spacing: -0.015em; margin: 0 0 22px; text-wrap: balance;
 }
 .lede { font-family: var(--display); font-size: clamp(20px, 2.4vw, 24px); line-height: 1.4; color: var(--fg); margin: 0 0 18px; max-width: 34ch; text-wrap: balance; }
@@ -251,7 +253,7 @@ footer.site { border-top: 1px solid var(--line); padding-block: 48px 40px; backg
   <section class="hero">
     <div class="wrap">
       <div>
-        <p class="eyebrow">CNRS Researcher · Laboratoire Gulliver, ESPCI Paris</p>
+        <p class="eyebrow">CNRS Researcher · <a href="http://www.gulliver.espci.fr/">Laboratoire Gulliver</a>, <a href="https://www.espci.psl.eu/">ESPCI Paris</a></p>
         <h1>David Lacoste</h1>
         <p class="lede">Theoretical physicist working on the statistical physics of living matter and on the emergence of life.</p>
         <p class="intro">My research spans stochastic thermodynamics, the origin of life, chemical reaction networks and autocatalysis, and the growth and fluctuations of cell populations. I work at <a href="http://www.gulliver.espci.fr/">Laboratoire Gulliver</a>, a joint CNRS–ESPCI unit in Paris.</p>
@@ -328,24 +330,10 @@ footer.site { border-top: 1px solid var(--line); padding-block: 48px 40px; backg
     </div>
   </section>
 
-  <section class="block" id="numbers">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2><span class="n">02</span>By the numbers</h2>
-      </div>
-      <div class="numbers">
-        <div class="num"><b>75+</b><span>Publications listed by theme</span></div>
-        <div class="num"><b>6</b><span>Research themes since 1998</span></div>
-        <div class="num"><b>10</b><span>Former PhD students and postdocs in academia</span></div>
-        <div class="num"><b>2</b><span>Workshops co-organised in 2026</span></div>
-      </div>
-    </div>
-  </section>
-
   <section class="block" id="news">
     <div class="wrap">
       <div class="sec-head">
-        <h2><span class="n">03</span>What's new</h2>
+        <h2><span class="n">02</span>What's new</h2>
         <a class="more" href="https://twitter.com/lacostedavid2">More on Twitter / X</a>
       </div>
       <div class="split">
@@ -390,7 +378,7 @@ footer.site { border-top: 1px solid var(--line); padding-block: 48px 40px; backg
   <section class="block" id="selected">
     <div class="wrap">
       <div class="sec-head">
-        <h2><span class="n">04</span>Recent publications</h2>
+        <h2><span class="n">03</span>Recent publications</h2>
         <a class="more" href="publications.html">All publications</a>
       </div>
       <ul class="pubs">
@@ -443,7 +431,7 @@ footer.site { border-top: 1px solid var(--line); padding-block: 48px 40px; backg
   <section class="block" id="people">
     <div class="wrap">
       <div class="sec-head">
-        <h2><span class="n">05</span>Former group members in academia</h2>
+        <h2><span class="n">04</span>Former group members in academia</h2>
       </div>
       <div class="people">
         <div>
