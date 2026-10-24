@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Soft matter and multiple light scattering · David Lacoste</title>
+<meta name="description" content="Magnetic colloids, liquid crystals, and the optics of diffuse light in magneto-optical and chiral media, including the photonic Hall effect.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+html, body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+
+/* Layout: sticky slim nav · two-column hero (text | portrait card) · numbered sections on a 1080px column · four-column footer. Dark-first, warm ink. */
+:root {
+  --bg: #13110e;
+  --bg-raised: #1c1914;
+  --line: #2e2a23;
+  --fg: #ece6da;
+  --muted: #a69d8d;
+  --faint: #6f675a;
+  --accent: #d6a24a;
+  --accent-soft: rgba(214, 162, 74, 0.14);
+  --display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f7f4ee; --bg-raised: #fffdf9; --line: #e2dccf; --fg: #1d1a15;
+    --muted: #5d564a; --faint: #8f8676; --accent: #9a6a12; --accent-soft: rgba(154, 106, 18, 0.10);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f7f4ee; --bg-raised: #fffdf9; --line: #e2dccf; --fg: #1d1a15;
+  --muted: #5d564a; --faint: #8f8676; --accent: #9a6a12; --accent-soft: rgba(154, 106, 18, 0.10);
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--body); font-size: 16px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+a { color: inherit; text-decoration-color: var(--faint); text-underline-offset: 3px; }
+a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 720px) { .wrap { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); } }
+
+/* ---------- Nav ---------- */
+header.site {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 500; white-space: nowrap; }
+.brand .mono-badge {
+  width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid var(--accent); color: var(--accent);
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+}
+nav.main { display: flex; gap: 4px 20px; flex-wrap: wrap; justify-content: flex-end; font-size: 14px; }
+nav.main a { text-decoration: none; color: var(--muted); }
+nav.main a:hover, nav.main a[aria-current] { color: var(--fg); }
+@media (max-width: 760px) {
+  header.site .wrap { flex-direction: column; align-items: flex-start; gap: 8px; }
+  nav.main { justify-content: flex-start; gap: 4px 16px; }
+}
+
+/* ---------- Hero ---------- */
+.hero { padding-block: 72px 64px; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; align-items: center; }
+.eyebrow {
+  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent);
+  margin: 0 0 18px;
+}
+h1 {
+  font-family: var(--display); font-weight: 500; font-size: clamp(44px, 7vw, 76px);
+  line-height: 1.0; letter-spacing: -0.015em; margin: 0 0 22px; text-wrap: balance;
+}
+.lede { font-family: var(--display); font-size: clamp(20px, 2.4vw, 24px); line-height: 1.4; color: var(--fg); margin: 0 0 18px; max-width: 34ch; text-wrap: balance; }
+.intro { color: var(--muted); max-width: 60ch; margin: 0 0 28px; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px;
+  border: 1px solid var(--line); font-size: 14px; text-decoration: none; color: var(--fg);
+  transition: border-color .15s, background .15s;
+}
+.chip:hover { border-color: var(--accent); background: var(--accent-soft); color: var(--fg); }
+.chip.primary { border-color: var(--accent); color: var(--accent); }
+.chip svg { width: 14px; height: 14px; flex: none; }
+
+.portrait { display: flex; flex-direction: column; gap: 14px; }
+.photo {
+  aspect-ratio: 4 / 5; max-width: 100%; border-radius: 6px; overflow: hidden; position: relative;
+  background: var(--bg-raised); border: 1px solid var(--line);
+}
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo .fallback {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--display); font-size: 88px; color: var(--accent); letter-spacing: -0.02em;
+}
+.photo .fallback[hidden] { display: none; }
+.address { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+.address strong { color: var(--fg); font-weight: 500; }
+.address .email-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.address code { font-family: var(--mono); font-size: 12.5px; color: var(--fg); }
+.copy {
+  font: inherit; font-size: 12px; font-family: var(--mono); color: var(--accent); background: none;
+  border: 1px solid var(--line); border-radius: 4px; padding: 1px 8px; cursor: pointer;
+}
+.copy:hover { border-color: var(--accent); }
+
+@media (max-width: 820px) {
+  .hero { padding-block: 44px 40px; }
+  .hero .wrap { grid-template-columns: 1fr; gap: 36px; }
+  .portrait { flex-direction: row; align-items: flex-start; gap: 18px; }
+  .photo { width: 132px; flex: none; }
+  .photo .fallback { font-size: 44px; }
+}
+
+/* ---------- Sections ---------- */
+section.block { border-top: 1px solid var(--line); padding-block: 64px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+h2 { font-family: var(--display); font-weight: 500; font-size: clamp(28px, 3.6vw, 38px); margin: 0; line-height: 1.1; display: flex; align-items: baseline; gap: 14px; }
+h2 .n { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.06em; }
+.more { font-size: 14px; color: var(--muted); text-decoration: none; white-space: nowrap; }
+.more:hover { color: var(--accent); }
+.more::after { content: " →"; }
+
+/* Research cards */
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+.card { background: var(--bg); padding: 26px 24px 24px; display: flex; flex-direction: column; gap: 10px; text-decoration: none; transition: background .15s; min-width: 0; }
+.card:hover { background: var(--bg-raised); color: var(--fg); }
+.card h3 { font-family: var(--display); font-weight: 500; font-size: 22px; line-height: 1.2; margin: 0; text-wrap: balance; }
+.card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+.card .sub { margin-top: auto; padding-top: 8px; font-family: var(--mono); font-size: 11.5px; color: var(--faint); line-height: 1.7; }
+.card[aria-expanded="true"] { background: var(--bg-raised); box-shadow: inset 0 -2px 0 var(--accent); }
+.theme-panel { margin-top: 24px; border: 1px solid var(--line); border-radius: 6px; padding: 24px; background: var(--bg-raised); }
+.panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+.panel-head h3 { font-family: var(--display); font-weight: 500; font-size: 24px; margin: 0; }
+.theme-panel .pubs li:last-child { border-bottom: 0; padding-bottom: 0; }
+.preprints { list-style: none; margin: auto 0 0; padding: 12px 0 0; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+.preprints a { font-family: var(--display); font-size: 17px; line-height: 1.3; text-decoration-color: var(--accent); }
+.preprints span { display: block; font-family: var(--mono); font-size: 11.5px; color: var(--faint); margin-top: 3px; }
+.card .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+
+/* Numbers */
+.numbers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 720px) { .numbers { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.num { border-left: 1px solid var(--line); padding-left: 18px; }
+.num b { display: block; font-family: var(--display); font-weight: 400; font-size: clamp(44px, 6vw, 60px); line-height: 1; font-variant-numeric: tabular-nums; }
+.num span { display: block; margin-top: 10px; font-size: 14px; color: var(--muted); }
+
+/* News / opportunities */
+.split { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 48px; }
+@media (max-width: 820px) { .split { grid-template-columns: 1fr; gap: 32px; } }
+.callout { border: 1px solid var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 24px; }
+.callout h3 { font-family: var(--display); font-weight: 500; font-size: 24px; margin: 0 0 8px; }
+.callout p { margin: 0 0 14px; color: var(--fg); }
+.callout p:last-child { margin-bottom: 0; }
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 16px; padding-block: 16px; border-top: 1px solid var(--line); }
+.list li:first-child { border-top: 0; padding-top: 0; }
+.list .when { font-family: var(--mono); font-size: 12.5px; color: var(--accent); padding-top: 3px; font-variant-numeric: tabular-nums; }
+.list p { margin: 0; }
+.list .sm { color: var(--muted); font-size: 14.5px; margin-top: 2px; }
+
+/* Publications */
+.pubs { list-style: none; margin: 0; padding: 0; }
+.pubs li { padding-block: 18px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; }
+.pubs li:last-child { border-bottom: 1px solid var(--line); }
+.pubs .yr { font-family: var(--mono); font-size: 13px; color: var(--faint); padding-top: 4px; }
+.pubs .t { font-family: var(--display); font-size: 20px; line-height: 1.3; margin: 0 0 4px; }
+.pubs .t a { text-decoration: none; }
+.pubs .a { color: var(--muted); font-size: 14px; margin: 0; }
+.pubs .j { font-style: italic; }
+
+/* People */
+.people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+@media (max-width: 560px) { .people { grid-template-columns: 1fr; } }
+.people h3 { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 500; margin: 0 0 12px; }
+.people ul { list-style: none; margin: 0; padding: 0; }
+.people li { padding-block: 9px; border-top: 1px solid var(--line); font-size: 15.5px; }
+
+/* Footer */
+footer.site { border-top: 1px solid var(--line); padding-block: 48px 40px; background: var(--bg-raised); }
+.foot { display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); gap: 32px; }
+@media (max-width: 760px) { .foot { grid-template-columns: repeat(2, minmax(0, 1fr)); } .foot .about { grid-column: 1 / -1; } }
+.foot h4 { font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--faint); font-weight: 500; margin: 0 0 12px; }
+.foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 14.5px; }
+.foot ul a { text-decoration: none; color: var(--muted); }
+.foot ul a:hover { color: var(--accent); }
+.foot .about p { margin: 0 0 8px; color: var(--muted); font-size: 14.5px; max-width: 40ch; }
+.foot .about .name { font-family: var(--display); font-size: 22px; color: var(--fg); }
+.legal { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13px; color: var(--faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.legal .eq { font-family: var(--mono); }
+
+/* Research pages */
+.r-hero { padding-block: 64px 40px; }
+.crumb { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin: 0 0 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+.crumb a { text-decoration: none; color: var(--muted); }
+.crumb a:hover { color: var(--accent); }
+.r-hero h1 { font-size: clamp(38px, 6vw, 64px); max-width: 18ch; }
+.r-hero .lede { max-width: 46ch; }
+.r-keys { font-family: var(--mono); font-size: 12.5px; color: var(--faint); margin: 0; }
+.prose { max-width: 68ch; display: grid; gap: 36px; }
+.prose h2 { font-size: clamp(24px, 3vw, 30px); margin: 0 0 10px; }
+.prose p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
+.edit-note { font-family: var(--mono); font-size: 12px; color: var(--faint); border: 1px dashed var(--line); border-radius: 4px; padding: 8px 12px; max-width: 68ch; margin: 0 0 32px; }
+.pub-group + .pub-group { margin-top: 40px; }
+.pub-group h3 { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 500; margin: 0 0 4px; }
+.pubs .lk { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 6px; font-family: var(--mono); font-size: 12px; }
+.pubs .lk a { color: var(--muted); }
+.pubs .lk a:hover { color: var(--accent); }
+.pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.pager a { background: var(--bg); padding: 22px 24px; text-decoration: none; display: grid; gap: 6px; }
+.pager a:hover { background: var(--bg-raised); color: var(--fg); }
+.pager .dir { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+.pager .nm { font-family: var(--display); font-size: 21px; line-height: 1.25; }
+.pager .next { text-align: right; }
+@media (max-width: 560px) { .pager { grid-template-columns: 1fr; } .pager .next { text-align: left; } }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="./"><span class="mono-badge" aria-hidden="true">DL</span>David Lacoste</a>
+    <nav class="main" aria-label="Main">
+      <a href="./">Home</a>
+      <a href="./#research" aria-current="page">Research</a>
+      <a href="https://dlacoste22.github.io/publications.html">Publications</a>
+      <a href="https://dlacoste22.github.io/teach.html">Teaching</a>
+      <a href="https://dlacoste22.github.io/talks.html">Talks</a>
+      <a href="https://dlacoste22.github.io/confs.html">Conferences</a>
+      <a href="https://dlacoste22.github.io/cveng1.pdf">CV</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="r-hero">
+    <div class="wrap">
+      <p class="crumb"><a href="./#research">Research</a><span>·</span><span>06 / 06</span></p>
+      <h1>Soft matter and multiple light scattering</h1>
+      <p class="lede">My early work, starting with my PhD in Grenoble, dealt with the transport of light in disordered media and with the physics of complex fluids such as ferrofluids, colloids and liquid crystals.</p>
+      <p class="r-keys">Colloids · Liquid crystals · Magneto-optics</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="prose">
+        <div>
+          <h2>Light in disordered and magneto-optical media</h2>
+          <p>When light is scattered many times, it diffuses. In magneto-optical media, a magnetic field deflects this diffuse light sideways, an effect known as the photonic Hall effect. We developed the theory of magneto-transverse light diffusion and of coherent backscattering in a magnetic field, compared it with experiments on ferrofluids, and studied the patterns formed by backscattered polarized light.</p>
+        </div>
+        <div>
+          <h2>Colloids and liquid crystals</h2>
+          <p>We studied phase transitions in ferrofluids under a magnetic field, the use of chains of magnetic colloids to measure colloidal forces and thermal expansion, and the optical properties and phase transitions of liquid crystals and nematic gels.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="publications">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Publications <span class="n">16</span></h2>
+        <a class="more" href="https://dlacoste22.github.io/papers.html">Chronological list</a>
+      </div>
+      <div class="pub-group">
+        <h3>Magnetic colloids</h3>
+        <ul class="pubs">
+          <li><span class="yr">2009</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/Expansion_thermique.pdf">Thermal expansion within a chain of magnetic colloidal particles</a></p>
+            <p class="a">D. Lacoste, C. Brangbour, J. Bibette, J. Baudry · <span class="j">Phys. Rev. E 80, 011401</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/Expansion_thermique.pdf">PDF</a><a href="http://arXiv.org/abs/0906.3707">arXiv</a></p>
+          </div></li>
+          <li><span class="yr">2009</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/MCT.pdf">Measuring colloidal forces with the magnetic chaining technique</a></p>
+            <p class="a">R. Dreyfus, D. Lacoste, J. Bibette, J. Baudry · <span class="j">Eur. Phys. J. E 28, 113</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/MCT.pdf">PDF</a></p>
+          </div></li>
+          <li><span class="yr">2003</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/mohammad.pdf">Field-induced structures in miscible ferrofluid suspensions with and without latex spheres</a></p>
+            <p class="a">M. Islam, K. Lin, D. Lacoste, T. Lubensky, A. Yodh · <span class="j">Phys. Rev. E 67, 021402</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/mohammad.pdf">PDF</a></p>
+          </div></li>
+          <li><span class="yr">2001</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/ff_transition.pdf">Phase transitions in a ferrofluid at magnetic field induced microphase separation</a></p>
+            <p class="a">D. Lacoste, T. Lubensky · <span class="j">Phys. Rev. E 64, 041506</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/ff_transition.pdf">PDF</a><a href="https://arxiv.org/abs/cond-mat/0103429">arXiv</a></p>
+          </div></li>
+        </ul>
+      </div>
+      <div class="pub-group">
+        <h3>Liquid crystals</h3>
+        <ul class="pubs">
+          <li><span class="yr">2002</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/epje02026.pdf">Phase transitions in lyotropic nematic gels</a></p>
+            <p class="a">D. Lacoste, A. Lau, T. Lubensky · <span class="j">Eur. Phys. J. E 8, 403</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/epje02026.pdf">PDF</a><a href="https://arxiv.org/abs/cond-mat/0202262">arXiv</a></p>
+          </div></li>
+          <li><span class="yr">2002</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/BP.pdf">Effective index of refraction, optical rotation, and circular dichroism in isotropic liquid crystals</a></p>
+            <p class="a">D. Lacoste, P. Collings, T. Lubensky · <span class="j">Phys. Rev. E 65, 031717</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/BP.pdf">PDF</a><a href="https://arxiv.org/abs/cond-mat/0108100">arXiv</a></p>
+          </div></li>
+        </ul>
+      </div>
+      <div class="pub-group">
+        <h3>Patterns with diffuse polarized light</h3>
+        <ul class="pubs">
+          <li><span class="yr">2004</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/OL.pdf">Geometric depolarization in patterns formed by backscattered light</a></p>
+            <p class="a">D. Lacoste, V. Rossetto, F. Jaillon, H. Saint-Jalmes · <span class="j">Optics Letters 29, 2040</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/OL.pdf">PDF</a><a href="https://arxiv.org/abs/cond-mat/0402084">arXiv</a></p>
+          </div></li>
+          <li><span class="yr">2004</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/josa2004.pdf">Depolarization of backscattered linearly polarized light</a></p>
+            <p class="a">L.-F. Rojas-Ochoa, D. Lacoste, R. Lenke, P. Schurtenberger, F. Scheffold · <span class="j">J. Opt. Soc. Am. A 21, 1799</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/josa2004.pdf">PDF</a><a href="https://arxiv.org/abs/cond-mat/0402391">arXiv</a></p>
+          </div></li>
+        </ul>
+      </div>
+      <div class="pub-group">
+        <h3>Magneto-optics with diffuse light</h3>
+        <ul class="pubs">
+          <li><span class="yr">2000</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/cone.pdf">Coherent backscattering of light in a magnetic field</a></p>
+            <p class="a">D. Lacoste, B. van Tiggelen · <span class="j">Phys. Rev. E 61, 4556</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/cone.pdf">PDF</a><a href="https://arxiv.org/abs/cond-mat/9911165">arXiv</a></p>
+          </div></li>
+          <li><span class="yr">2000</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/wrm.pdf">Transport mean free path for magneto-transverse light diffusion: an alternative approach</a></p>
+            <p class="a">D. Lacoste · <span class="j">Waves Random Media 10, 367</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/wrm.pdf">PDF</a><a href="https://arxiv.org/abs/cond-mat/0004099">arXiv</a></p>
+          </div></li>
+          <li><span class="yr">2000</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/physicaB.pdf">Magneto-optics with diffuse light</a></p>
+            <p class="a">D. Lacoste, B. van Tiggelen, G. Rikken · <span class="j">Physica B 279, 13</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/physicaB.pdf">PDF</a></p>
+          </div></li>
+          <li><span class="yr">2000</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/ff.pdf">Photonic Hall effect in ferrofluids: theory and experiments</a></p>
+            <p class="a">D. Lacoste, F. Donatini, S. Neveu, S. Serughetti, B. van Tiggelen · <span class="j">Phys. Rev. E 62, 3934</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/ff.pdf">PDF</a><a href="https://arxiv.org/abs/cond-mat/0004101">arXiv</a></p>
+          </div></li>
+          <li><span class="yr">2000</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/sabine.pdf">The photonic Hall effect in absorbing media</a></p>
+            <p class="a">S. Wiebel, A. Sparenberg, G. Rikken, D. Lacoste, B. van Tiggelen · <span class="j">Phys. Rev. E 62, 8636</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/sabine.pdf">PDF</a></p>
+          </div></li>
+          <li><span class="yr">1999</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/euro.pdf">Transport mean free path for magneto-transverse light diffusion</a></p>
+            <p class="a">D. Lacoste, B. van Tiggelen · <span class="j">Europhys. Lett. 45, 721</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/euro.pdf">PDF</a><a href="https://arxiv.org/abs/cond-mat/9812003">arXiv</a></p>
+          </div></li>
+          <li><span class="yr">1999</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/these.pdf">PhD thesis: light scattering in magneto-optical or chiral media (in French)</a></p>
+            <p class="a">D. Lacoste · <span class="j">Université Joseph Fourier, Grenoble</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/these.pdf">PDF</a></p>
+          </div></li>
+          <li><span class="yr">1998</span><div>
+            <p class="t"><a href="https://dlacoste22.github.io/publis/josa.pdf">Optics of a Faraday Mie sphere</a></p>
+            <p class="a">D. Lacoste, B. van Tiggelen, G. Rikken, A. Sparenberg · <span class="j">J. Opt. Soc. Am. A 15, 1632</span></p>
+            <p class="lk"><a href="https://dlacoste22.github.io/publis/josa.pdf">PDF</a><a href="https://arxiv.org/abs/cond-mat/9901139">arXiv</a></p>
+          </div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <nav class="pager" aria-label="Other research themes">
+        <a href="research-soft-biological-matter.html"><span class="dir">← Previous theme</span><span class="nm">Soft biological matter</span></a>
+        <a class="next" href="research-origin-of-life.html"><span class="dir">Next theme →</span><span class="nm">Origin of life</span></a>
+      </nav>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot">
+      <div class="about">
+        <p class="name">David Lacoste</p>
+        <p>Statistical physics of living and pre-living matter. CNRS researcher at Laboratoire Gulliver, ESPCI Paris.</p>
+        <p><code style="font-family:var(--mono);font-size:13px;color:var(--fg)">david.lacoste@espci.fr</code></p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./#research">Research</a></li>
+          <li><a href="https://dlacoste22.github.io/publications.html">Publications</a></li>
+          <li><a href="https://dlacoste22.github.io/teach.html">Teaching</a></li>
+          <li><a href="https://dlacoste22.github.io/cveng1.pdf">CV</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Events</h4>
+        <ul>
+          <li><a href="https://dlacoste22.github.io/talks.html">Recorded talks</a></li>
+          <li><a href="https://dlacoste22.github.io/confs.html">Conferences</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Profiles</h4>
+        <ul>
+          <li><a href="http://scholar.google.com/citations?user=sPVpEycAAAAJ&amp;hl=en">Google Scholar</a></li>
+          <li><a href="http://orcid.org/0000-0002-5735-4657">ORCID</a></li>
+          <li><a href="https://twitter.com/lacostedavid2">Twitter / X</a></li>
+          <li><a href="http://www.gulliver.espci.fr/">Gulliver lab</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© David Lacoste · Paris, France</span>
+      <span class="eq">A + X → 2X</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
