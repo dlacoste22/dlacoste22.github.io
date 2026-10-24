@@ -1,74 +1,418 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
-<HTML><HEAD><TITLE>David Lacoste's physics home page</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=windows-1252">
-<STYLE type=text/css>SPAN.title {FONT-WEIGHT: bold}SPAN.ref {COLOR: maroon}</STYLE>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Numerical methods and statistical physics · David Lacoste</title>
+<meta name="description" content="Tutorials on numerical methods and statistical physics for the PTSC master at UPMC, 2012–2016.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+html, body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
 
-<LINK href="style.css" type=text/css rel=stylesheet>
-<META content="MSHTML 6.00.2800.1505" name=GENERATOR></HEAD>
+/* Layout: sticky slim nav · two-column hero (text | portrait card) · numbered sections on a 1080px column · four-column footer. Dark-first, warm ink. */
+:root {
+  --bg: #13110e;
+  --bg-raised: #1c1914;
+  --line: #2e2a23;
+  --fg: #ece6da;
+  --muted: #a69d8d;
+  --faint: #6f675a;
+  --accent: #d6a24a;
+  --accent-soft: rgba(214, 162, 74, 0.14);
+  --display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f7f4ee; --bg-raised: #fffdf9; --line: #e2dccf; --fg: #1d1a15;
+    --muted: #5d564a; --faint: #8f8676; --accent: #9a6a12; --accent-soft: rgba(154, 106, 18, 0.10);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f7f4ee; --bg-raised: #fffdf9; --line: #e2dccf; --fg: #1d1a15;
+  --muted: #5d564a; --faint: #8f8676; --accent: #9a6a12; --accent-soft: rgba(154, 106, 18, 0.10);
+  color-scheme: light;
+}
 
-<!-- Publications <BR>
-<P id=Teaching align=center><FONT color=maroon size=+2>News</FONT>
-<BR>
-<UL>
-  We are organizing on Tuesday October 20th
-  an informal visit of my lab Gulliver for all M2 students, <br>
-  who are looking for an internship in January-February 2016 and/or a PhD position
-  starting in September 2016. <br><br>
-  
-  The presentation of the Gulliver lab will start in building F, third floor, room F304
-  at ESPCI at 9:45am and will last <br> until lunch time approximately. 
-  To get an idea of how many people will come
-  please confirm if you intend to come <br> by email at
-  <A href="mailto:david@turner.pct.espci.fr">david@turner.pct.espci.fr</A> <BR>
--->  
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--body); font-size: 16px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+a { color: inherit; text-decoration-color: var(--faint); text-underline-offset: 3px; }
+a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
 
-<!-- Publications --><BR>
-<!--------------
-<li>IMPORTANT ! We are proposing two internships or thesis in Non-equilibrium Statistical Physics 
-to be started in the beginning of 2015: <br><br> 
-The first one concerns a stochastic and thermodynamic approach of metabolism, 
-as described <A HREF="publis/Prop1_CFP.pdf">here </A> in french or <A HREF="publis/Prop1-english.pdf">there </A> in english. <br>
-The second one concerns symmetry properties of non-gaussian fluctuations as described 
- <A HREF="publis/Prop2_CFP.pdf">here </A> in french or <A HREF="publis/Prop2-english.pdf">there</A> in english. <br> 
-Don't hesitate to get in touch with me to know more about these two propositions.
--->
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 720px) { .wrap { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); } }
+
+/* ---------- Nav ---------- */
+header.site {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 500; white-space: nowrap; }
+.brand .mono-badge {
+  width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid var(--accent); color: var(--accent);
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+}
+nav.main { display: flex; gap: 4px 20px; flex-wrap: wrap; justify-content: flex-end; font-size: 14px; }
+nav.main a { text-decoration: none; color: var(--muted); }
+nav.main a:hover, nav.main a[aria-current] { color: var(--fg); }
+@media (max-width: 760px) {
+  header.site .wrap { flex-direction: column; align-items: flex-start; gap: 8px; }
+  nav.main { justify-content: flex-start; gap: 4px 16px; }
+}
+
+/* ---------- Hero ---------- */
+.hero { padding-block: 72px 64px; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; align-items: center; }
+.eyebrow {
+  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent);
+  margin: 0 0 18px;
+}
+h1 {
+  font-family: var(--display); font-weight: 500; font-size: clamp(44px, 7vw, 76px);
+  line-height: 1.0; letter-spacing: -0.015em; margin: 0 0 22px; text-wrap: balance;
+}
+.lede { font-family: var(--display); font-size: clamp(20px, 2.4vw, 24px); line-height: 1.4; color: var(--fg); margin: 0 0 18px; max-width: 34ch; text-wrap: balance; }
+.intro { color: var(--muted); max-width: 60ch; margin: 0 0 28px; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px;
+  border: 1px solid var(--line); font-size: 14px; text-decoration: none; color: var(--fg);
+  transition: border-color .15s, background .15s;
+}
+.chip:hover { border-color: var(--accent); background: var(--accent-soft); color: var(--fg); }
+.chip.primary { border-color: var(--accent); color: var(--accent); }
+.chip svg { width: 14px; height: 14px; flex: none; }
+
+.portrait { display: flex; flex-direction: column; gap: 14px; }
+.photo {
+  aspect-ratio: 4 / 5; max-width: 100%; border-radius: 6px; overflow: hidden; position: relative;
+  background: var(--bg-raised); border: 1px solid var(--line);
+}
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo .fallback {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--display); font-size: 88px; color: var(--accent); letter-spacing: -0.02em;
+}
+.photo .fallback[hidden] { display: none; }
+.address { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+.address strong { color: var(--fg); font-weight: 500; }
+.address .email-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.address code { font-family: var(--mono); font-size: 12.5px; color: var(--fg); }
+.copy {
+  font: inherit; font-size: 12px; font-family: var(--mono); color: var(--accent); background: none;
+  border: 1px solid var(--line); border-radius: 4px; padding: 1px 8px; cursor: pointer;
+}
+.copy:hover { border-color: var(--accent); }
+
+@media (max-width: 820px) {
+  .hero { padding-block: 44px 40px; }
+  .hero .wrap { grid-template-columns: 1fr; gap: 36px; }
+  .portrait { flex-direction: row; align-items: flex-start; gap: 18px; }
+  .photo { width: 132px; flex: none; }
+  .photo .fallback { font-size: 44px; }
+}
+
+/* ---------- Sections ---------- */
+section.block { border-top: 1px solid var(--line); padding-block: 64px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+h2 { font-family: var(--display); font-weight: 500; font-size: clamp(28px, 3.6vw, 38px); margin: 0; line-height: 1.1; display: flex; align-items: baseline; gap: 14px; }
+h2 .n { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.06em; }
+.more { font-size: 14px; color: var(--muted); text-decoration: none; white-space: nowrap; }
+.more:hover { color: var(--accent); }
+.more::after { content: " →"; }
+
+/* Research cards */
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+.card { background: var(--bg); padding: 26px 24px 24px; display: flex; flex-direction: column; gap: 10px; text-decoration: none; transition: background .15s; min-width: 0; }
+.card:hover { background: var(--bg-raised); color: var(--fg); }
+.card h3 { font-family: var(--display); font-weight: 500; font-size: 22px; line-height: 1.2; margin: 0; text-wrap: balance; }
+.card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+.card .sub { margin-top: auto; padding-top: 8px; font-family: var(--mono); font-size: 11.5px; color: var(--faint); line-height: 1.7; }
+.card[aria-expanded="true"] { background: var(--bg-raised); box-shadow: inset 0 -2px 0 var(--accent); }
+.theme-panel { margin-top: 24px; border: 1px solid var(--line); border-radius: 6px; padding: 24px; background: var(--bg-raised); }
+.panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+.panel-head h3 { font-family: var(--display); font-weight: 500; font-size: 24px; margin: 0; }
+.theme-panel .pubs li:last-child { border-bottom: 0; padding-bottom: 0; }
+.preprints { list-style: none; margin: auto 0 0; padding: 12px 0 0; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+.preprints a { font-family: var(--display); font-size: 17px; line-height: 1.3; text-decoration-color: var(--accent); }
+.preprints span { display: block; font-family: var(--mono); font-size: 11.5px; color: var(--faint); margin-top: 3px; }
+.card .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+
+/* Numbers */
+.numbers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 720px) { .numbers { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.num { border-left: 1px solid var(--line); padding-left: 18px; }
+.num b { display: block; font-family: var(--display); font-weight: 400; font-size: clamp(44px, 6vw, 60px); line-height: 1; font-variant-numeric: tabular-nums; }
+.num span { display: block; margin-top: 10px; font-size: 14px; color: var(--muted); }
+
+/* News / opportunities */
+.split { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 48px; }
+@media (max-width: 820px) { .split { grid-template-columns: 1fr; gap: 32px; } }
+.callout { border: 1px solid var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 24px; }
+.callout h3 { font-family: var(--display); font-weight: 500; font-size: 24px; margin: 0 0 8px; }
+.callout p { margin: 0 0 14px; color: var(--fg); }
+.callout p:last-child { margin-bottom: 0; }
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 16px; padding-block: 16px; border-top: 1px solid var(--line); }
+.list li:first-child { border-top: 0; padding-top: 0; }
+.list .when { font-family: var(--mono); font-size: 12.5px; color: var(--accent); padding-top: 3px; font-variant-numeric: tabular-nums; }
+.list p { margin: 0; }
+.list .sm { color: var(--muted); font-size: 14.5px; margin-top: 2px; }
+
+/* Publications */
+.pubs { list-style: none; margin: 0; padding: 0; }
+.pubs li { padding-block: 18px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; }
+.pubs li:last-child { border-bottom: 1px solid var(--line); }
+.pubs .yr { font-family: var(--mono); font-size: 13px; color: var(--faint); padding-top: 4px; }
+.pubs .t { font-family: var(--display); font-size: 20px; line-height: 1.3; margin: 0 0 4px; }
+.pubs .t a { text-decoration: none; }
+.pubs .a { color: var(--muted); font-size: 14px; margin: 0; }
+.pubs .j { font-style: italic; }
+
+/* People */
+.people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+@media (max-width: 560px) { .people { grid-template-columns: 1fr; } }
+.people h3 { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 500; margin: 0 0 12px; }
+.people ul { list-style: none; margin: 0; padding: 0; }
+.people li { padding-block: 9px; border-top: 1px solid var(--line); font-size: 15.5px; }
+
+/* Footer */
+footer.site { border-top: 1px solid var(--line); padding-block: 48px 40px; background: var(--bg-raised); }
+.foot { display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); gap: 32px; }
+@media (max-width: 760px) { .foot { grid-template-columns: repeat(2, minmax(0, 1fr)); } .foot .about { grid-column: 1 / -1; } }
+.foot h4 { font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--faint); font-weight: 500; margin: 0 0 12px; }
+.foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 14.5px; }
+.foot ul a { text-decoration: none; color: var(--muted); }
+.foot ul a:hover { color: var(--accent); }
+.foot .about p { margin: 0 0 8px; color: var(--muted); font-size: 14.5px; max-width: 40ch; }
+.foot .about .name { font-family: var(--display); font-size: 22px; color: var(--fg); }
+.legal { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13px; color: var(--faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.legal .eq { font-family: var(--mono); }
+
+/* Research pages */
+.r-hero { padding-block: 64px 40px; }
+.crumb { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin: 0 0 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+.crumb a { text-decoration: none; color: var(--muted); }
+.crumb a:hover { color: var(--accent); }
+.r-hero h1 { font-size: clamp(38px, 6vw, 64px); max-width: 18ch; }
+.r-hero .lede { max-width: 46ch; }
+.r-keys { font-family: var(--mono); font-size: 12.5px; color: var(--faint); margin: 0; }
+.prose { max-width: 68ch; display: grid; gap: 36px; }
+.prose h2 { font-size: clamp(24px, 3vw, 30px); margin: 0 0 10px; }
+.prose p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
+.edit-note { font-family: var(--mono); font-size: 12px; color: var(--faint); border: 1px dashed var(--line); border-radius: 4px; padding: 8px 12px; max-width: 68ch; margin: 0 0 32px; }
+.pub-group + .pub-group { margin-top: 40px; }
+.pub-group h3 { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 500; margin: 0 0 4px; }
+.pubs .lk { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 6px; font-family: var(--mono); font-size: 12px; }
+.pubs .lk a { color: var(--muted); }
+.pubs .lk a:hover { color: var(--accent); }
+.pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.pager a { background: var(--bg); padding: 22px 24px; text-decoration: none; display: grid; gap: 6px; }
+.pager a:hover { background: var(--bg-raised); color: var(--fg); }
+.pager .dir { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+.pager .nm { font-family: var(--display); font-size: 21px; line-height: 1.25; }
+.pager .next { text-align: right; }
+@media (max-width: 560px) { .pager { grid-template-columns: 1fr; } .pager .next { text-align: left; } }
 
 
-<P id=Teaching align=center><FONT color=maroon size=+2>Tutorials for master PTSC in 2015-2016</FONT>  
-<BR><BR>
-<UL>
-  <li><a href="teaching/2015/td1.pdf">Introduction to LD and thermodynamics (TD1)</a>
-    with  <a href="teaching/2015/zia.pdf">a reference on Legendre transforms</a>.
-  <li><a href="teaching/2015/td2.pdf">Monte Carlo simulations (TD2)</a><br> with
-    associated Python codes:
-<a href="teaching/2014/box-muller.py">box-muller.py,</a>
-<a href="teaching/2014/acceptance ratio.py">acceptance ratio.py,</a>
-<a href="teaching/2014/error evaluation.py">error evaluation.py.</a><br>
-<li><a href="teaching/2015/td3.pdf">Molecular dynamics at constant temperature (TD3)</a><br>
-with codes for simulating hard spheres using 
-<a href="teaching/2015/direct_disks_box_movie.py">direct sampling,</a>
-<a href="teaching/2015/markov_disks_box_movie.py">markov sampling,</a>
-<a href="teaching/2015/improved-event-disks.py">event driven method.</a>
-<br>
-<li><a href="teaching/2015/td4.pdf">The structure factor (TD4)</a><br>
-<li><a href="teaching/2015/td5.pdf">Scaling theory and critical exponents (TD5) </a><br>
-<!--
-<a href="teaching/2014/td6.pdf">Advanced Monte Carlo methods (TD6),</a>
- with some codes:  
-<a href="teaching/2014/markov_ising_movie.py">Ising with Metropolis</a>
-<a href="teaching/2014/cluster_ising_movie.py">Cluster algorithm,</a>
-<a href="teaching/2014/thermo_ising_movie.py">Ising from density of state.
-</a><br>
-<a href="teaching/2015/td8.pdf">Totally asymmetric exclusion model (TD8)<br></a>
-
--->
-<li><a href="teaching/2015/td6.pdf">Stochastic thermodynamics (TD6)<br></a>
+/* Timeline pages (teaching, talks, conferences) */
+.tl { list-style: none; margin: 0; padding: 0; }
+.tl > li { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; padding-block: 22px; border-top: 1px solid var(--line); }
+.tl > li:last-child { border-bottom: 1px solid var(--line); }
+.tl .when { font-family: var(--mono); font-size: 13px; color: var(--accent); padding-top: 4px; font-variant-numeric: tabular-nums; }
+.tl h3 { font-family: var(--display); font-weight: 500; font-size: 21px; line-height: 1.3; margin: 0; text-wrap: balance; }
+.tl h3 a { text-decoration: none; }
+.tl h3 a:hover { text-decoration: underline; }
+.tl .where { color: var(--muted); font-size: 15px; margin: 4px 0 0; }
+.tl .note { color: var(--muted); font-size: 14.5px; margin: 6px 0 0; max-width: 64ch; }
+.tl .lk { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 0; font-family: var(--mono); font-size: 12px; }
+.tl .lk a { color: var(--muted); }
+.tl .lk a:hover { color: var(--accent); }
+.badge { display: inline-block; vertical-align: 3px; margin-left: 10px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); border-radius: 3px; padding: 1px 6px; }
+@media (max-width: 640px) { .tl > li { grid-template-columns: 1fr; gap: 6px; } }
+.course { display: grid; gap: 0; counter-reset: c; list-style: none; margin: 0; padding: 0; }
+.course li { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px; padding-block: 16px; border-top: 1px solid var(--line); }
+.course li::before { counter-increment: c; content: counter(c, upper-roman); font-family: var(--display); font-size: 22px; color: var(--accent); line-height: 1.2; }
+.course h4 { font-family: var(--display); font-weight: 500; font-size: 19px; margin: 0 0 4px; }
+.course p { margin: 0; color: var(--muted); font-size: 14.5px; }
+.course .ref { margin-top: 4px; }
+.course .ref a { color: var(--fg); }
 
 
-<br><br>
-<li><a href="teaching/2015/homework2015.pdf">Homework </a> together with the
-  <a href="teaching/2015/correction.pdf">correction.</a>
+.sessions { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+.sessions li { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px; padding-block: 16px; border-top: 1px solid var(--line); }
+.sessions li:last-child { border-bottom: 1px solid var(--line); }
+.sessions .num { font-family: var(--mono); font-size: 12.5px; color: var(--accent); padding-top: 5px; }
+.sessions h3 { font-family: var(--display); font-weight: 500; font-size: 19.5px; line-height: 1.3; margin: 0; }
+.sessions h3 a { text-decoration: none; }
+.sessions h3 a:hover { text-decoration: underline; }
+.sessions p { margin: 4px 0 0; color: var(--muted); font-size: 14.5px; }
+.sessions .lk { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 6px; font-family: var(--mono); font-size: 12px; }
+.sessions .lk a { color: var(--muted); }
+.sessions .lk a:hover { color: var(--accent); }
+.sessions .lk .off { color: var(--faint); }
+.back { display: inline-flex; gap: 8px; font-size: 14px; color: var(--muted); text-decoration: none; }
+.back:hover { color: var(--accent); }
 
-<li>For <a href="PTSC-old.html">tutorials of 2013 and 2014, </a>including exams and corrections.<br><br>
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="./"><span class="mono-badge" aria-hidden="true">DL</span>David Lacoste</a>
+    <nav class="main" aria-label="Main">
+      <a href="./">Home</a>
+      <a href="./#research">Research</a>
+      <a href="publications.html">Publications</a>
+      <a href="teach.html" aria-current="page">Teaching</a>
+      <a href="talks.html">Talks</a>
+      <a href="confs.html">Conferences</a>
+      <a href="cveng1.pdf">CV</a>
+    </nav>
+  </div>
+</header>
 
-</ul></LI></UL>   
+<main id="top">
+  <section class="r-hero">
+    <div class="wrap">
+      <p class="crumb"><a href="teach.html">Teaching</a><span>·</span><span>Past course</span></p>
+      <h1>Numerical methods and statistical physics</h1>
+      <p class="lede">Tutorials combining statistical physics and numerical methods: Monte Carlo and molecular dynamics simulations, phase transitions and finite size scaling, exclusion processes and stochastic thermodynamics, with Python codes.</p>
+      <p class="r-keys">Master PTSC, UPMC (Sorbonne Université) · 2012 – 2016</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Tutorials 2015 – 2016</h2>
+      </div>
+      <ol class="sessions">
+        <li><span class="num">TD 1</span><div><h3>Introduction to large deviations and thermodynamics</h3></div></li>
+        <li><span class="num">TD 2</span><div><h3>Monte Carlo simulations</h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2014/box-muller.py">box-muller.py</a><a href="https://dlacoste22.github.io/teaching/2014/acceptance%20ratio.py">acceptance ratio.py</a><a href="https://dlacoste22.github.io/teaching/2014/error%20evaluation.py">error evaluation.py</a></p></div></li>
+        <li><span class="num">TD 3</span><div><h3>Molecular dynamics at constant temperature</h3><p>Codes for hard spheres: direct sampling, Markov sampling and the event-driven method.</p></div></li>
+        <li><span class="num">TD 4</span><div><h3>The structure factor</h3></div></li>
+        <li><span class="num">TD 5</span><div><h3>Scaling theory and critical exponents</h3></div></li>
+        <li><span class="num">TD 6</span><div><h3>Stochastic thermodynamics</h3></div></li>
+        <li><span class="num">HW</span><div><h3>Homework</h3></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Tutorials 2014 – 2015</h2>
+      </div>
+      <ol class="sessions">
+        <li><span class="num">TD 1</span><div><h3><a href="https://dlacoste22.github.io/teaching/2014/td1.pdf">Thermodynamics</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2014/td1.pdf">PDF</a></p></div></li>
+        <li><span class="num">TD 2</span><div><h3><a href="https://dlacoste22.github.io/teaching/2014/td2.pdf">Monte Carlo simulations</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2014/td2.pdf">PDF</a><a href="https://dlacoste22.github.io/teaching/2014/box-muller.py">box-muller.py</a><a href="https://dlacoste22.github.io/teaching/2014/acceptance%20ratio.py">acceptance ratio.py</a><a href="https://dlacoste22.github.io/teaching/2014/error%20evaluation.py">error evaluation.py</a></p></div></li>
+        <li><span class="num">TD 3</span><div><h3><a href="https://dlacoste22.github.io/teaching/2014/td3.pdf">Molecular dynamics at constant temperature</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2014/td3.pdf">PDF</a></p></div></li>
+        <li><span class="num">TD 4</span><div><h3><a href="https://dlacoste22.github.io/teaching/2014/td4.pdf">The structure factor</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2014/td4.pdf">PDF</a></p></div></li>
+        <li><span class="num">TD 5</span><div><h3><a href="https://dlacoste22.github.io/teaching/2014/td5.pdf">Finite size scaling in first and second order transitions</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2014/td5.pdf">PDF</a></p></div></li>
+        <li><span class="num">TD 6</span><div><h3><a href="https://dlacoste22.github.io/teaching/2014/td6.pdf">Advanced Monte Carlo methods</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2014/td6.pdf">PDF</a><a href="https://dlacoste22.github.io/teaching/2014/markov_ising_movie.py">Ising with Metropolis</a><a href="https://dlacoste22.github.io/teaching/2014/cluster_ising_movie.py">Cluster algorithm</a><a href="https://dlacoste22.github.io/teaching/2014/thermo_ising_movie.py">Ising from density of states</a></p></div></li>
+        <li><span class="num">TD 7</span><div><h3><a href="https://dlacoste22.github.io/teaching/2014/td7.pdf">Stochastic thermodynamics</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2014/td7.pdf">PDF</a></p></div></li>
+        <li><span class="num">TD 8</span><div><h3><a href="https://dlacoste22.github.io/teaching/2014/td8.pdf">Totally asymmetric exclusion model</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2014/td8.pdf">PDF</a></p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Tutorials 2013 – 2014</h2>
+      </div>
+      <ol class="sessions">
+        <li><span class="num">TD 1</span><div><h3><a href="https://dlacoste22.github.io/teaching/2013/td1.pdf">Variations on the Ising model</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2013/td1.pdf">PDF</a></p></div></li>
+        <li><span class="num">TD 2</span><div><h3><a href="https://dlacoste22.github.io/teaching/2013/td2.pdf">Monte Carlo simulations</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2013/td2.pdf">PDF</a></p></div></li>
+        <li><span class="num">TD 3</span><div><h3><a href="https://dlacoste22.github.io/teaching/2013/td3.pdf">Molecular dynamics at constant temperature</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2013/td3.pdf">PDF</a></p></div></li>
+        <li><span class="num">TD 4</span><div><h3><a href="https://dlacoste22.github.io/teaching/2013/td4.pdf">The structure factor</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2013/td4.pdf">PDF</a></p></div></li>
+        <li><span class="num">TD 5</span><div><h3>Finite size scaling in first and second order transitions</h3></div></li>
+        <li><span class="num">TD 6</span><div><h3><a href="https://dlacoste22.github.io/teaching/2013/td6.pdf">Totally asymmetric exclusion model</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2013/td6.pdf">PDF</a></p></div></li>
+        <li><span class="num">TD 7</span><div><h3><a href="https://dlacoste22.github.io/teaching/2013/td7.pdf">Aging in the 1D Ising model with Glauber dynamics</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2013/td7.pdf">PDF</a></p></div></li>
+        <li><span class="num">TD 8</span><div><h3>Non-equilibrium work relations</h3></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Exams</h2>
+      </div>
+      <ol class="sessions">
+        <li><span class="num">2013</span><div><h3><a href="https://dlacoste22.github.io/teaching/2013/Exam2013.pdf">Exam PTSC 2013</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2013/Exam2013.pdf">PDF</a><a href="https://dlacoste22.github.io/teaching/2013/Solutions%202013%20part%20I.pdf">Solutions part I</a><a href="https://dlacoste22.github.io/teaching/2013/Solutions%202013%20part%20II.pdf">Solutions part II</a></p></div></li>
+        <li><span class="num">2012</span><div><h3><a href="https://dlacoste22.github.io/teaching/2013/Exam2012.pdf">Exam PTSC 2012</a></h3><p class="lk"><a href="https://dlacoste22.github.io/teaching/2013/Exam2012.pdf">PDF</a><a href="https://dlacoste22.github.io/teaching/2013/CorrigeViot.pdf">Solutions</a></p></div></li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot">
+      <div class="about">
+        <p class="name">David Lacoste</p>
+        <p>Statistical physics of living and pre-living matter. CNRS researcher at Laboratoire Gulliver, ESPCI Paris.</p>
+        <p><code style="font-family:var(--mono);font-size:13px;color:var(--fg)">david.lacoste@espci.fr</code></p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./#research">Research</a></li>
+          <li><a href="publications.html">Publications</a></li>
+          <li><a href="teach.html">Teaching</a></li>
+          <li><a href="cveng1.pdf">CV</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Events</h4>
+        <ul>
+          <li><a href="talks.html">Recorded talks</a></li>
+          <li><a href="confs.html">Conferences</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Profiles</h4>
+        <ul>
+          <li><a href="http://scholar.google.com/citations?user=sPVpEycAAAAJ&amp;hl=en">Google Scholar</a></li>
+          <li><a href="http://orcid.org/0000-0002-5735-4657">ORCID</a></li>
+          <li><a href="https://twitter.com/lacostedavid2">Twitter / X</a></li>
+          <li><a href="http://www.gulliver.espci.fr/">Gulliver lab</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© David Lacoste · Paris, France</span>
+      <span class="eq">A + X → 2X</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
